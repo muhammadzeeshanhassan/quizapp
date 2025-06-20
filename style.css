@@ -1,7 +1,7 @@
 * {
     margin: 0px;
     padding: 0px;
-    font-family: 'Poppins', 'sans-serif'; 
+    font-family: 'Poppins', 'sans-serif';
 }
 
 body {
@@ -21,6 +21,7 @@ body {
     color: #001e4d;
     padding-bottom: 30px;
     border-bottom: 1px solid #333;
+    border-radius: 2px;
 }
 
 .quiz {
@@ -33,7 +34,7 @@ body {
     padding-bottom: 20px;
 }
 
-.btn{
+.btn {
     background-color: #fff;
     color: #222;
     width: 100%;
@@ -43,15 +44,19 @@ body {
     text-align: left;
     border: 1px solid #222;
     cursor: pointer;
+    border-radius: 2px;
 }
 
-.btn:hover {
+.btn:hover:not([disabled]) {
     transition: 0.3s ease-in;
     background-color: #222;
     color: #fff;
 }
+.btn:disabled{
+    cursor:no-drop;
+}
 
-.next {
+#next {
     background-color: #001e4d;
     font-size: 20px;
     color: #fff;
@@ -61,4 +66,13 @@ body {
     margin: 10px 0;
     border: none;
     display: none;
+    border-radius: 2px;
+}
+
+.correct {
+    background-color: #9aeabc;
+}
+
+.incorrect {
+    background-color: #ff9393;
 }
