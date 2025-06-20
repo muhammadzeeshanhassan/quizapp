@@ -15,3 +15,50 @@ body {
     margin: 100px auto 0;
     padding: 30px;
 }
+
+.app h1 {
+    font-weight: bold;
+    color: #001e4d;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #333;
+}
+
+.quiz {
+    padding: 20px 0;
+}
+
+.quiz h2 {
+    font-size: 18px;
+    color: #001e4d;
+    padding-bottom: 20px;
+}
+
+.btn{
+    background-color: #fff;
+    color: #222;
+    width: 100%;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #222;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transition: 0.3s ease-in;
+    background-color: #222;
+    color: #fff;
+}
+
+.next {
+    background-color: #001e4d;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    width: 150px;
+    margin: 10px 0;
+    border: none;
+    display: none;
+}
