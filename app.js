@@ -115,18 +115,6 @@ function selectAnswer(e) {
     } else {
         selectedButton.classList.add("incorrect");
     }
-
-    // let allButtons = answerButton.children;
-
-    // for (let i = 0; i < allButtons.length; i++) {
-    //     let button = allButtons[i];
-
-    //     if (button.dataset.correct === "true") {
-    //         button.classList.add("correct");
-    //     }
-
-    //     button.disabled = true;
-    // }
     displayRightAnswer();
     nextButton.style.display = "block";
 }
@@ -170,18 +158,10 @@ function startTimer() {
             handleTimeUp();
         }
     }, 1000);
+    console.log(timer);
 }
 
 function handleTimeUp() {
-    // for (let i = 0; i < allButtons.length; i++) {
-    //     let button = allButtons[i];
-
-    //     if (button.dataset.correct === "true") {
-    //         button.classList.add("correct");
-    //     }
-
-    //     button.disabled = true;
-    // }
     displayRightAnswer();
     nextButton.style.display = "block";
 }
