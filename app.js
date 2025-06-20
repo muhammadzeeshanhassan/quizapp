@@ -53,9 +53,13 @@ const questions = [
 const questionElement = document.getElementById("question");
 const nextButton = document.getElementById("next");
 const answerButton = document.getElementById("answer-buttons");
+const timerElement = document.getElementById("timer");
 
 let currentQuestionIndex = 0;
 let score = 0;
+
+let timer;
+let timeLeft = 10;
 
 function startQuiz() {
     currentQuestionIndex = 0;
@@ -89,9 +93,11 @@ function showQuestion() {
         console.log(answer.text);
     })
 
+    startTimer();
 }
 
 function resetQuestion() {
+    clearInterval(timer);
     nextButton.style.display = "none";
     while (answerButton.firstChild) {
         answerButton.removeChild(answerButton.firstChild);
@@ -99,6 +105,7 @@ function resetQuestion() {
 }
 
 function selectAnswer(e) {
+    clearInterval(timer);
     let selectedButton = e.target;
     console.log(e.target);
     const isCorrect = selectedButton.dataset.correct === "true";
@@ -109,17 +116,18 @@ function selectAnswer(e) {
         selectedButton.classList.add("incorrect");
     }
 
-    let allButtons = answerButton.children;
+    // let allButtons = answerButton.children;
 
-    for (let i = 0; i < allButtons.length; i++) {
-        let button = allButtons[i];
+    // for (let i = 0; i < allButtons.length; i++) {
+    //     let button = allButtons[i];
 
-        if (button.dataset.correct === "true") {
-            button.classList.add("correct");
-        }
+    //     if (button.dataset.correct === "true") {
+    //         button.classList.add("correct");
+    //     }
 
-        button.disabled = true;
-    }
+    //     button.disabled = true;
+    // }
+    displayRightAnswer();
     nextButton.style.display = "block";
 }
 
@@ -148,5 +156,47 @@ nextButton.addEventListener("click", () => {
     }
 })
 
+// Timer Functions
+function startTimer() {
+    timeLeft = 10;
+    timerElement.innerHTML = `Time Left: ${timeLeft}s`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timerElement.innerHTML = `Time Left: ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            handleTimeUp();
+        }
+    }, 1000);
+}
+
+function handleTimeUp() {
+    // for (let i = 0; i < allButtons.length; i++) {
+    //     let button = allButtons[i];
+
+    //     if (button.dataset.correct === "true") {
+    //         button.classList.add("correct");
+    //     }
+
+    //     button.disabled = true;
+    // }
+    displayRightAnswer();
+    nextButton.style.display = "block";
+}
+
+function displayRightAnswer() {
+    let allButtons = answerButton.children;
+    for (let i = 0; i < allButtons.length; i++) {
+        let button = allButtons[i];
+
+        if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+        }
+
+        button.disabled = true;
+    }
+}
 
 startQuiz();

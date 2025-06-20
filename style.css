@@ -76,3 +76,11 @@ body {
 .incorrect {
     background-color: #ff9393;
 }
+
+#timer {
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    text-align: right;
+    margin: 10px 0;
+}
