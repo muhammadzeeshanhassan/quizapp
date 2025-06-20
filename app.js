@@ -109,13 +109,6 @@ function selectAnswer(e) {
         selectedButton.classList.add("incorrect");
     }
 
-    // Array.from(answerButton.children).forEach(button => {
-    //     if (button.dataset.correct === "true") {
-    //         button.classList.add("correct");
-    //     }
-    //     button.disabled = true;
-    // });
-
     let allButtons = answerButton.children;
 
     for (let i = 0; i < allButtons.length; i++) {
