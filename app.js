@@ -102,6 +102,7 @@ function resetQuestion() {
     while (answerButton.firstChild) {
         answerButton.removeChild(answerButton.firstChild);
     }
+    nextButton.style.display = "none";
 }
 
 function disableAllButtons() {
@@ -175,6 +176,7 @@ function showScore() {
     answerButton.appendChild(resultSummary);
     nextButton.innerHTML = "Play Again";
     nextButton.style.display = "block";
+    nextButton.addEventListener("click", startQuiz);
 }
 
 function startTimer() {
@@ -191,8 +193,5 @@ function startTimer() {
     }, 1000);
 }
 
-nextButton.addEventListener("click", () => {
-    startQuiz();
-})
 
 startQuiz();
