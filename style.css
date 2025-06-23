@@ -84,3 +84,8 @@ body {
     text-align: right;
     margin: 10px 0;
 }
+
+.marked{
+    background-color: #222;
+    color: #fff;
+}

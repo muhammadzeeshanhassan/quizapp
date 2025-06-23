@@ -51,20 +51,21 @@ const questions = [
 // DOM Manipulation
 
 const questionElement = document.getElementById("question");
-const nextButton = document.getElementById("next");
 const answerButton = document.getElementById("answer-buttons");
 const timerElement = document.getElementById("timer");
+const nextButton = document.getElementById("next");
 
 let currentQuestionIndex = 0;
 let score = 0;
-
 let timer;
 let timeLeft = 10;
+
+const userAnswers = [];
 
 function startQuiz() {
     currentQuestionIndex = 0;
     score = 0;
-    nextButton.innerHTML = "Next";
+    userAnswers.length = 0;
     showQuestion();
 }
 
@@ -98,53 +99,84 @@ function showQuestion() {
 
 function resetQuestion() {
     clearInterval(timer);
-    nextButton.style.display = "none";
     while (answerButton.firstChild) {
         answerButton.removeChild(answerButton.firstChild);
     }
 }
 
-function selectAnswer(e) {
-    clearInterval(timer);
-    let selectedButton = e.target;
-    console.log(e.target);
-    const isCorrect = selectedButton.dataset.correct === "true";
-    if (isCorrect) {
-        selectedButton.classList.add("correct");
-        score += 1;
-    } else {
-        selectedButton.classList.add("incorrect");
-    }
-    displayRightAnswer();
-    nextButton.style.display = "block";
+function disableAllButtons() {
+    const allButtons = answerButton.querySelectorAll("button");
+    allButtons.forEach(btn => {
+        btn.disabled = true;
+    });
 }
 
-function showScore() {
-    resetQuestion();
-    questionElement.innerHTML = `You got ${score} out of ${questions.length} marks.`
-    nextButton.innerHTML = "Play Again";
-    nextButton.style.display = "block";
+function selectAnswer(e) {
+    clearInterval(timer);
+    const selectedButton = e.target;
+    const isCorrect = selectedButton.dataset.correct === "true";
+
+    disableAllButtons();
+
+    selectedButton.classList.add("marked");
+    if (isCorrect) score += 1;
+
+    userAnswers.push({
+        question: questions[currentQuestionIndex].question,
+        selectedAnswer: selectedButton.innerText,
+        isCorrect
+    });
+
+    setTimeout(() => {
+        handleNextButton();
+    }, 1000);
+}
+
+function handleTimeUp() {
+    disableAllButtons();
+    userAnswers.push({
+        question: questions[currentQuestionIndex].question,
+        selectedAnswer: "No Answer",
+        isCorrect: false
+    });
+    setTimeout(() => {
+        handleNextButton();
+    }, 1000);
 }
 
 function handleNextButton() {
-    currentQuestionIndex += 1;
+    currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
         showQuestion();
-
     } else {
         showScore();
     }
 }
 
-nextButton.addEventListener("click", () => {
-    if (currentQuestionIndex < questions.length) {
-        handleNextButton();
-    } else {
-        startQuiz();
-    }
-})
+function showScore() {
+    resetQuestion();
+    timerElement.innerHTML = "";
 
-// Timer Functions
+    questionElement.innerHTML = `You got ${score} out of ${questions.length} correct.`;
+    const resultSummary = document.createElement("div");
+
+    userAnswers.forEach((entry, index) => {
+        const entryDiv = document.createElement("div");
+        entryDiv.style.margin = "10px 0";
+        entryDiv.innerHTML = `
+            <strong>Q${index + 1}: ${entry.question}</strong><br>
+            <span style="color: ${entry.isCorrect ? 'green' : 'red'}">
+                Your Answer: ${entry.selectedAnswer} - ${entry.isCorrect ? 'Correct' : 'Wrong'}
+            </span>
+        `;
+        resultSummary.appendChild(entryDiv);
+    });
+
+    answerButton.appendChild(resultSummary);
+    nextButton.innerHTML = "Play Again";
+    nextButton.style.display = "block";
+}
+
 function startTimer() {
     timeLeft = 10;
     timerElement.innerHTML = `Time Left: ${timeLeft}s`;
@@ -152,31 +184,15 @@ function startTimer() {
     timer = setInterval(() => {
         timeLeft--;
         timerElement.innerHTML = `Time Left: ${timeLeft}s`;
-
         if (timeLeft <= 0) {
             clearInterval(timer);
             handleTimeUp();
         }
     }, 1000);
-    console.log(timer);
 }
 
-function handleTimeUp() {
-    displayRightAnswer();
-    nextButton.style.display = "block";
-}
-
-function displayRightAnswer() {
-    let allButtons = answerButton.children;
-    for (let i = 0; i < allButtons.length; i++) {
-        let button = allButtons[i];
-
-        if (button.dataset.correct === "true") {
-            button.classList.add("correct");
-        }
-
-        button.disabled = true;
-    }
-}
+nextButton.addEventListener("click", () => {
+    startQuiz();
+})
 
 startQuiz();
