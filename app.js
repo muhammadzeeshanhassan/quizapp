@@ -128,9 +128,7 @@ function selectAnswer(e) {
         isCorrect
     });
 
-    setTimeout(() => {
-        handleNextButton();
-    }, 1000);
+    handleNextButton();
 }
 
 function handleTimeUp() {
